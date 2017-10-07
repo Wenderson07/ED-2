@@ -29,7 +29,8 @@ Set:
 
 //Videos e sites que podem ajudar:
 https://youtu.be/BwEB0tfKEWY
-https://www.youtube.com/watch?v=ZjPotaffGks&list=PLesCEcYj003RzkQBaNOOl7zwlIGOfeo1y
+https://youtu.be/gsy5GqwWqjw?list=PLesCEcYj003Rfzs39Y4Bs_chpkE276-gD   // Basico java
+https://www.youtube.com/watch?v=ZjPotaffGks&list=PLesCEcYj003RzkQBaNOOl7zwlIGOfeo1y // Poo Java
 
 
 
