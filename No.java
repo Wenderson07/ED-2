@@ -31,3 +31,32 @@ public class No {
 		return this.x;
 	}
 }
+
+
+
+
+
+/*
+
+package arvoreAVL;
+
+
+//Essa Classe cria os nós
+public class No {
+	private int valor;
+	int fatorDeBalanceamento;
+	private No pai;
+	private No direita;
+	private No esquerda;
+	private int altura; //pode ser removido
+	
+	public No(int x) { //valor
+		pai = null;
+		direita = null;
+		esquerda = null;
+		altura = 0;
+		valor = x;
+	}
+
+}
+*/
