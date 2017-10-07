@@ -11,7 +11,7 @@ Give me the rights if you take it for your work pls
  * Comentar o Código a cada função 
  * é extremamente proibido underline paoDeBatata , e não Pao_de_Batata
  * Usar x nas funções ,para inserir um valor qualquer
-	if{
+ *	if{
 	}else{
 	}
 
@@ -22,3 +22,10 @@ Set:
 	Inserção								                  	  07/10/17			
 
 
+
+
+
+
+
+//Videos e sites que podem ajudar:
+https://youtu.be/BwEB0tfKEWY
