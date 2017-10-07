@@ -11,7 +11,7 @@ Give me the rights if you take it for your work pls
 //Padrões:
  * Comentar o Código a cada função 
  * é extremamente proibido underline paoDeBatata , e não Pao_de_Batata
- * Usar x nas funções ,para inserir um valor qualquer, e y para identificar Raiz
+ * Usar x nas funções ,para inserir um valor qualquer, e y para identificar no
  *	if{
 	}else{
 	}
