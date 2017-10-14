@@ -21,8 +21,8 @@ Give me the rights if you take it for your work pls
 Set:
 	Criou classes iniciais e definições iniciais  07/10/17 
 	Inserção								                  	  07/10/17			
-
-
+	Terminou inserção										  14/10/17
+	>Falta só fazer funcionar....tentando descobrir como compila				          14/10/17	
 
 
 
