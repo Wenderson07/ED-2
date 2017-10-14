@@ -4,6 +4,11 @@ package arvoreAVL;
 public class arvore {
 	private No raiz;
 	
+	public arvore() { //construtor
+		//Iniciar
+		raiz = null;
+	}
+	
 	
 	public boolean checarArvoreVazia() {
 		//Função que checa se etá vazio
@@ -14,11 +19,7 @@ public class arvore {
 		raiz =null;
 	}
 	
-	public void inserir(int x) {
-		//Inserir um valor x
-		raiz = inserir(x,raiz); 
-		
-	}
+
 	// Toda referencia a No é a classe No, sugestão: mudar nome para NoAvl
 	private int altura(No y) {
 		//return x == null ? -1 : x.altura;  Tradução:
@@ -28,22 +29,72 @@ public class arvore {
 			return altura(y); // Codigo original, testar se eh valido hue
 		}
 	}
-	
-	public No buscar(int x,No y) {
-		if (y == null) {
-			return null;
-		}
-		if(y.valor() == x) {
-			return y;
-		}else if(x < y.valor()){
-			return buscar(x,y.esquerda());
+	int maximo(int a, int b) {
+		if(a> b) {
+			return a;
 		}else {
-			return buscar(x,y.direita());
-		}	
+			return b;
 		}
+	}
 
+	public No rotacionarParaEsquerda(No y) {
+		No aux = y.esquerda;  //Filho da direita
+		//rotacionar
+		y.esquerda = aux.direita;
+		aux.direita = y;
+
+		//altura
+		y.altura = maximo(altura(y.esquerda),altura(y.direita))+1;
+		aux.altura = maximo(altura(aux.esquerda),altura(aux.direita))+1;
+		return aux;
+	}
 	
+	public No rotacionarParaDireita(No y) {
+		No aux = y.direita;  //Filho da direita
+		//rotacionar
+		y.direita = aux.esquerda;
+		aux.esquerda = y;
+
+		//altura
+		y.altura = maximo(altura(y.esquerda),altura(y.direita))+1;
+		aux.altura = maximo(altura(aux.esquerda),altura(aux.direita))+1;
+		return aux;
+	}
 	
+	int fatorDeBalanceamento(No y) {
+		if(y == null) {
+			return 0;}
+		return altura(y.esquerda) - altura(y.direita); 
+	}
+	
+	public No inserir(int x, No y) {
+		if(y == null) {
+			y = new No(x);		//Cria o novo no, caso seja vazia (fix)
+		}else if(x < y.valor) {		
+			y.esquerda = inserir(x,y.esquerda);
+		}
+		int fb = fatorDeBalanceamento(y);
+		if(fb > 1) {
+			if(x < y.esquerda.valor) {
+				return rotacionarParaDireita(y);
+			}else {
+				y.direita = rotacionarParaEsquerda(y.esquerda);
+				return rotacionarParaDireita(y);
+			}	
+		}
+		if(fb < -1) {
+			if(x > y.direita.valor) {
+				return rotacionarParaEsquerda(y);
+			}else {
+				y.direita =rotacionarParaDireita(y);
+				return rotacionarParaEsquerda(y);
+			}
+			
+		}
+		y.altura = maximo(altura(y.esquerda),altura(y.direita)) + 1;
+		return y;
+	}
+
 	
 	
 }
