@@ -2,7 +2,7 @@ package arvoreAVL;
 
 
 public class arvore {
-	private No raiz;
+	public No raiz;
 	
 	public arvore() { //construtor
 		//Iniciar
@@ -68,10 +68,14 @@ public class arvore {
 	}
 	
 	public No inserir(int x, No y) {
+		System.out.println(x);
 		if(y == null) {
-			y = new No(x);		//Cria o novo no, caso seja vazia (fix)
+			System.out.println("vazia");
+			y = new No(x);	//Cria o novo no, caso seja vazia	
 		}else if(x < y.valor) {		
 			y.esquerda = inserir(x,y.esquerda);
+		}else {
+			y.direita = inserir(x,y.direita);
 		}
 		int fb = fatorDeBalanceamento(y);
 		if(fb > 1) {
@@ -95,6 +99,15 @@ public class arvore {
 		return y;
 	}
 
-	
-	
+	void preOrdem(No y) {
+		if(y == null) {
+			System.out.println("Arvore vazia");
+		}
+		if(y != null) {
+			System.out.println(y.valor+"(" + fatorDeBalanceamento(y)+ ")");
+			preOrdem(y.esquerda);
+			preOrdem(y.direita);
+		}
+	}
+
 }
