@@ -1,0 +1,103 @@
+package arvoreAVL;
+
+public class arvore {
+	public No raiz;
+	
+	public arvore() { //construtor
+		//Iniciar
+		raiz = null;
+	}
+	
+	public boolean checarArvoreVazia() {
+		//Função que checa se etá vazio
+		return raiz == null;
+	}
+	
+	public void limpar() {
+		//Limpa ou cria a arvore
+		raiz =null;
+	}
+	
+	// Toda referencia a No é a classe No, sugestão: mudar nome para NoAvl
+	private int altura(No y) {
+		//return y == null ? -1 : y.altura;  Tradução:
+		if(y == null) {
+			return 0;
+		} else {
+			return y.altura; // Codigo original, testar se eh valido hue
+		}
+	}
+	
+	int maximo(int a, int b) {
+		if(a> b) {
+			return a;
+		} else {
+			return b;
+		}
+	}
+
+	public No rotacionarParaEsquerda(No y) {
+		No aux = y.direita;  //Filho da direita
+		
+		//Rotacionar
+		y.direita = aux.esquerda;
+		aux.esquerda = y;
+
+		return aux;
+	}
+	
+	public No rotacionarParaDireita(No y) {
+		No aux = y.esquerda;  //Filho da direita
+		
+		//Rotacionar
+		y.esquerda = aux.direita;
+		aux.direita = y;
+		
+		return aux;
+	}
+	
+	int fatorDeBalanceamento(No y) {
+		if(y == null) {
+			return 0;
+		}
+		return altura(y.direita) - altura(y.esquerda); 
+	}
+	
+	public No inserir(int x, No y) {
+		if(y == null) {
+			return (new No(x));	//Cria o novo no, caso seja vazia	
+		}
+		if(x < y.valor) {		
+			y.esquerda = inserir(x,y.esquerda);
+		} else {
+			y.direita = inserir(x,y.direita);
+		}
+		
+		int fb = fatorDeBalanceamento(y);
+				
+		if(fb < -1 && x < y.esquerda.valor) {
+			return rotacionarParaDireita(y);
+		} else if(fb > 1 && x > y.direita.valor){
+			return rotacionarParaEsquerda(y);
+		} else if(fb < -1 && x > y.esquerda.valor) {
+			y.esquerda = rotacionarParaEsquerda(y.esquerda);
+			return rotacionarParaDireita(y);
+		} else if(fb > 1 && x < y.direita.valor) {
+			y.direita = rotacionarParaDireita(y.direita);
+			return rotacionarParaEsquerda(y);
+		}
+		
+		y.altura = maximo(altura(y.esquerda),altura(y.direita)) + 1;
+		
+		return y;
+	}
+
+	void inOrdem(No y) {
+		if(y != null) {
+			inOrdem(y.esquerda);
+			System.out.print(y.valor + "(" + fatorDeBalanceamento(y) + ") ");
+			inOrdem(y.direita);
+		}
+	}
+
+}
