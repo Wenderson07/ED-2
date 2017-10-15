@@ -42,7 +42,11 @@ public class arvore {
 		//Rotacionar
 		y.direita = aux.esquerda;
 		aux.esquerda = y;
-
+		
+		//altura
+		//y.altura = maximo(altura(y.esquerda),altura(y.direita))+1;
+		//aux.altura = maximo(altura(aux.esquerda),altura(aux.direita))+1;
+		
 		return aux;
 	}
 	
@@ -52,6 +56,11 @@ public class arvore {
 		//Rotacionar
 		y.esquerda = aux.direita;
 		aux.direita = y;
+		
+		
+		//altura
+		//y.altura = maximo(altura(y.esquerda),altura(y.direita))+1;
+		//aux.altura = maximo(altura(aux.esquerda),altura(aux.direita))+1;
 		
 		return aux;
 	}
