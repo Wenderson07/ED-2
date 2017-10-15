@@ -1,0 +1,116 @@
+package arvoreAVL;
+
+
+public class arvore {
+	public No raiz;
+	
+	public arvore() { //construtor
+		//Iniciar
+		raiz = null;
+	}
+	
+	
+	public boolean checarArvoreVazia() {
+		//Função que checa se etá vazio
+		return raiz == null;
+	}
+	public void limpar() {
+		//Limpa ou cria a arvore
+		raiz =null;
+	}
+	
+
+	// Toda referencia a No é a classe No, sugestão: mudar nome para NoAvl
+	private int altura(No y) {
+		//return y == null ? -1 : y.altura;  Tradução:
+		if(y == null) {
+			return 0;
+		}else {
+			return y.altura; // Codigo original, testar se eh valido hue
+		}
+	}
+	int maximo(int a, int b) {
+		if(a> b) {
+			return a;
+		}else {
+			return b;
+		}
+	}
+
+	public No rotacionarParaEsquerda(No y) {
+		No aux = y.direita;  //Filho da direita
+		No aux2 = aux.esquerda;
+		
+		//rotacionar
+		aux.esquerda = y;
+		y.direita = aux2;
+		
+
+		//altura
+		y.altura = maximo(altura(y.esquerda),altura(y.direita))+1;
+		aux.altura = maximo(altura(aux.esquerda),altura(aux.direita))+1;
+		return aux;
+	}
+	
+	public No rotacionarParaDireita(No y) {
+		No aux = y.esquerda;  //Filho da direita
+		No aux2 = aux.direita;
+		
+		//rotacionar
+		aux.direita = y;
+		y.esquerda = aux2;
+		
+		//altura
+		y.altura = maximo(altura(y.esquerda),altura(y.direita))+1;
+		aux.altura = maximo(altura(aux.esquerda),altura(aux.direita))+1;
+		
+		return aux;
+	}
+	
+	int fatorDeBalanceamento(No y) {
+		if(y == null) {
+			return 0;
+		}
+		return altura(y.direita) - altura(y.esquerda); 
+	}
+	
+	public No inserir(int x, No y) {
+		if(y == null) {
+			return (new No(x));	//Cria o novo no, caso seja vazia	
+		}
+		if(x < y.valor) {		
+			y.esquerda = inserir(x,y.esquerda);
+		}else {
+			y.direita = inserir(x,y.direita);
+		}
+		int fb = fatorDeBalanceamento(y);
+		if(fb < -1) {
+			if(x < y.esquerda.valor) {
+				return rotacionarParaDireita(y);
+			}else {
+				y.direita = rotacionarParaEsquerda(y.esquerda);
+				return rotacionarParaDireita(y);
+			}	
+		}
+		if(fb > 1) {
+			if(x > y.direita.valor) {
+				return rotacionarParaEsquerda(y);
+			}else {
+				y.direita = rotacionarParaDireita(y);
+				return rotacionarParaEsquerda(y);
+			}
+			
+		}
+		y.altura = maximo(altura(y.esquerda),altura(y.direita)) + 1;
+		return y;
+	}
+
+	void preOrdem(No y) {
+		if(y != null) {
+			preOrdem(y.esquerda);
+			System.out.println(y.valor + "(" + fatorDeBalanceamento(y) + ")");
+			preOrdem(y.direita);
+		}
+	}
+
+}
