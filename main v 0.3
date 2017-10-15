@@ -1,0 +1,17 @@
+package arvoreAVL;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		arvore teste = new arvore(); //Crio novo elemento tipo arvore 
+		teste.raiz = teste.inserir(10, teste.raiz); 	//insere elemento
+		teste.raiz = teste.inserir(43, teste.raiz);
+		teste.raiz = teste.inserir(23, teste.raiz);
+		teste.raiz = teste.inserir(78, teste.raiz);
+		teste.raiz = teste.inserir(32, teste.raiz);
+		teste.raiz = teste.inserir(11, teste.raiz);
+		teste.inOrdem(teste.raiz);
+	}
+
+}
