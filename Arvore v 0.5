@@ -59,8 +59,10 @@ public class Arvore {
 		}
 		if(x < y.valor) {		
 			y.esquerda = inserir(x,y.esquerda);
-		} else {
+		}else if(x > y.valor){
 			y.direita = inserir(x,y.direita);
+		}else{ //Caso seja igual , nada acontece
+			
 		}
 		
 		int fb = fatorDeBalanceamento(y);
@@ -69,13 +71,15 @@ public class Arvore {
 			return rotacionarParaDireita(y);
 		} else if(fb > 1 && x > y.direita.valor){
 			return rotacionarParaEsquerda(y);
-		} else if(fb < -1 && x > y.esquerda.valor) {
+		} else if(fb < -1 && x > y.esquerda.valor) {  //Dupla a direita
 			y.esquerda = rotacionarParaEsquerda(y.esquerda);
 			return rotacionarParaDireita(y);
-		} else if(fb > 1 && x < y.direita.valor) {
+		} else if(fb > 1 && x < y.direita.valor) {	//Dupla a Esquerda
 			y.direita = rotacionarParaDireita(y.direita);
 			return rotacionarParaEsquerda(y);
 		}
+		
+		
 		
 		y.altura = maior(altura(y.esquerda),altura(y.direita)) + 1;
 		
@@ -91,15 +95,37 @@ public class Arvore {
 
         public void imprimeNos(No y,String espaçamento) {
             int fb;
-            if(y.esquerda != null) {
-                    fb = fatorDeBalanceamento(y.esquerda);
-                    System.out.println("  " + espaçamento + y.esquerda.valor + "   (pai: " + y.valor + " - FB: " + fb + ")");
-                    imprimeNos(y.esquerda, espaçamento + "\t");
-            }
             if(y.direita != null) {
                     fb = fatorDeBalanceamento(y.direita); 
                     System.out.println("  "+ espaçamento + y.direita.valor + "   (pai: " + y.valor + " - FB : " + fb + ")");
                     imprimeNos(y.direita, espaçamento + "\t");
             }
+            if(y.esquerda != null) {
+                fb = fatorDeBalanceamento(y.esquerda);
+                System.out.println("  " + espaçamento + y.esquerda.valor + "   (pai: " + y.valor + " - FB: " + fb + ")");
+                imprimeNos(y.esquerda, espaçamento + "\t");
+        }
     }
+        void inOrdem(No y) {
+    		if(y != null) {
+    			inOrdem(y.esquerda);
+    			System.out.print(y.valor + "(" + fatorDeBalanceamento(y) + ") ");
+    			inOrdem(y.direita);
+    		}
+        }
+    	void preOrdem(No y){
+    		if(y != null) {
+    			System.out.println(y.valor+"(" + fatorDeBalanceamento(y)+ ")");
+    			preOrdem(y.esquerda);
+    			preOrdem(y.direita);
+    		}
+    	}
+    	void posOrdem(No y){
+    		if(y != null) {
+    			posOrdem(y.esquerda);
+    			posOrdem(y.direita);
+    			System.out.println(y.valor+"(" + fatorDeBalanceamento(y)+ ")");
+    		}
+    	}
+    		
 }
