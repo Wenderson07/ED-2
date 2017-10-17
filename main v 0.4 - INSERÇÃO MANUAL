@@ -1,0 +1,35 @@
+package arvoreAVL;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		arvore teste = new arvore(); //Crio novo elemento tipo arvore
+		int resp,i = 0;
+		
+		System.out.printf("Num: ");
+		Scanner in = new Scanner(System.in);
+		resp = in.nextInt();
+		while(resp != 0) {
+			teste.raiz = teste.inserir(resp, teste.raiz);
+			System.out.printf("Inserindo: %d || AVL : %d elementos\n", resp,i);
+			System.out.printf("%d: ", i+1);
+			i++;
+			teste.inOrdem(teste.raiz);
+			System.out.printf("\n\nNum: ");
+			Scanner v = new Scanner(System.in);
+			resp = v.nextInt();		
+		}
+		
+		
+		//teste.raiz = teste.inserir(10, teste.raiz); 	//insere elemento
+		//teste.raiz = teste.inserir(43, teste.raiz);
+		//teste.raiz = teste.inserir(23, teste.raiz);
+		//teste.raiz = teste.inserir(78, teste.raiz);
+		//teste.raiz = teste.inserir(32, teste.raiz);
+		//teste.raiz = teste.inserir(11, teste.raiz);
+		//teste.inOrdem(teste.raiz);
+	}
+
+}
