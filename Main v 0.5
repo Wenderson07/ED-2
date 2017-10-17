@@ -15,7 +15,8 @@ public class Main {
         int escolha=1, numero;
 		while(escolha != 0) {
 	        System.out.println("--------------ARVORE AVL--------------");
-	        System.out.println("1-Inserir\t\t2-Carregar arquivo INPUT.TXT\t3-Imprimir");
+	        System.out.println("1-Inserir\t2-Carregar arquivo INPUT.TXT\t3-Imprimir");
+        	System.out.println("\nEscolha: ");
 	        escolha  =  in.nextInt();
 	         switch (escolha) {
 	            case 1:
@@ -31,14 +32,17 @@ public class Main {
 	            		int entrada = leitura.nextInt();
 	            		avl.raiz = avl.inserir(entrada, avl.raiz);
 	            	}
-	            break;
+	            	break;
 	            case 3:
+	            	System.out.printf("\n");
 	            	avl.imprimir();
-	             default:
-	                 System.out.println("Escolha entre  1 ou 2");
-	            break;              
-                    }
-                        	
+	            	break;
+	            default:
+	            	System.out.printf("Escolha: ");
+	            	escolha  =  in.nextInt();
+	            	break;   	
+             }
+	         System.out.printf("\n");
 		}
 	}
 
