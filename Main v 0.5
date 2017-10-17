@@ -8,8 +8,7 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		Arvore avl = new Arvore(); //Crio novo elemento tipo arvore
-		int i = 0;
-		
+				
 		Scanner in = new Scanner(System.in);
         Scanner in2 = new Scanner(System.in);
         int escolha=1, numero;
@@ -23,8 +22,7 @@ public class Main {
 	                System.out.printf("Digite o numero para inserir: ");
 	                numero = in2.nextInt();
 	                avl.raiz = avl.inserir(numero, avl.raiz);
-	                i++;
-	                System.out.printf("Inserindo: %d || AVL : %d elementos\n\n",numero,i);
+	                System.out.println("Inserido: " + numero);
 	                break;
 	            case 2:
 	            	Scanner leitura = new Scanner(new FileReader("INPUT.TXT")).useDelimiter("\\;|\\.");
@@ -36,6 +34,7 @@ public class Main {
 	            case 3:
 	            	System.out.printf("\n");
 	            	avl.imprimir();
+	            	System.out.printf("\n");
 	            	break;
 	            default:
 	            	System.out.printf("Escolha: ");
