@@ -39,7 +39,6 @@ public class arvore {
 		aux.altura = maior(altura(aux.esquerda),altura(aux.direita))+1;
 		return aux;
 	}
-	
 	public No rotacionarParaDireita(No y) {
 		No aux = y.esquerda;  //Filho da esquerda
 		
@@ -61,6 +60,22 @@ public class arvore {
 		return altura(y.direita) - altura(y.esquerda); 
 	}
 	
+	public No identificaPai(int x, No y){
+		No pai = null;
+		
+		if(y != null) {
+			while(y.valor != x){ 
+				pai = y;
+				if(y.valor > x)
+					y = y.esquerda;
+	    		else
+	    			y = y.direita;
+			}	
+	    	return pai;
+		}
+		return null;
+	}
+	
 	public No inserir(int x, No y) {
 
 		if(y == null) {
@@ -73,7 +88,7 @@ public class arvore {
 		} else { //Caso seja igual , nada acontece
 			
 		}
-		
+
 		int fb = fatorDeBalanceamento(y);
 				
 		if(fb < -1 && x < y.esquerda.valor) {
@@ -106,13 +121,12 @@ public class arvore {
 	    else
 	    	encontraMaior(y.direita);
 	}
-	
+
     public void imprimir() {
     	int fb = fatorDeBalanceamento(raiz);
         System.out.println(raiz.valor + "(raiz FB: " + fb + ")");
         imprimeNos(raiz, " ");
     }
-
     public void imprimeNos(No y,String espaçamento) {
     	int fb;
         if(y.direita != null) {
@@ -127,63 +141,48 @@ public class arvore {
         }
     }
     
-	public No identificaPai(int x, No y){
-		No pai = null;
-		
-		if(y != null) {
-			while(y.valor != x){ 
-				pai = y;
-				if(y.valor > x)
-					y = y.esquerda;
-	    		else
-	    			y = y.direita;
-			}	
-	    	return pai;
-		}
-		return null;
-	}
-    
-	public void localiza(int x, No y) {
-		if(y != null) {
-			if(x < y.valor) {		
-				localiza(x,y.esquerda);
-			} else if (x > y.valor){
-				localiza(x,y.direita);
-			} else { //Caso seja igual , nada acontece
-				int fb = fatorDeBalanceamento(y);
-				System.out.println("No: " + y.valor + " (FB: " + fb + ")");
-			}
-		}
-		else
-    		System.out.println("Elemento não encontrado.");
-	}
+    public void localizaNo(int x, No y) {
+    	No aux = y;
+    	while(y != null){
+    		if (x > y.valor)
+    			y = y.direita;
+    		else if (x < y.valor)
+    			y = y.esquerda;
+            else {
+            	No pai = identificaPai(x,aux);
+        		int fb = fatorDeBalanceamento(y);
+        		System.out.println("No: " + y.valor + " (FB: " + fb + ")");
+        		fb = fatorDeBalanceamento(pai);
+        	    System.out.println("\tPai: " + pai.valor + " (FB: " + fb + ")");    
+        	    if(y.direita != null) {
+        	    	fb = fatorDeBalanceamento(y.direita); 
+        	        System.out.println("\tFilho a Direita:  " + y.direita.valor + "   (FB: " + fb + ")");
+        	    }
+                if(y.esquerda != null) {
+                	fb = fatorDeBalanceamento(y.esquerda);
+                	System.out.println("\tFilho a Esquerda: " + y.esquerda.valor + "   (FB: " + fb + ")");
+                }
+                return;
+            }     
+        }
+    	System.out.println("Elemento não presente na AVL.");
+    }
 	
     public void find(int x, No y){
-    	No aux = y;
+    	
 		while(y.valor != x){
         	if(y.valor > x) 
         		y = y.esquerda;
         	else 
         		y = y.direita;
         }
-		No pai = identificaPai(x,aux);
-		int fb = fatorDeBalanceamento(y);
-		fb = fatorDeBalanceamento(pai);
-		System.out.println("No: " + y.valor + " (FB: " + fb + ")");
-	    System.out.println("\tPai: " + pai.valor + " (FB: " + fb + ")");    
-	    if(y.direita != null) {
-	    	fb = fatorDeBalanceamento(y.direita); 
-	        System.out.println("\tFilho a Direita:  " + y.direita.valor + "   (pai: " + y.valor + " - FB: " + fb + ")");
-	    }
-        if(y.esquerda != null) {
-        	fb = fatorDeBalanceamento(y.esquerda);
-        	System.out.println("\tFilho a Esquerda: " + y.esquerda.valor + "   (pai: " + y.valor + " - FB: " + fb + ")");
-        }
+		
         /*
 		else
     		System.out.println("Elemento não encontrado.");   // No match
     	*/	
 	}	
+
     
     void inOrdem(No y){
     	if(y != null) {
