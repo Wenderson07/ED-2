@@ -1,5 +1,7 @@
 package arvoreAVL;
 
+import arvoreAVL.No;
+
 public class arvore {
 	public No raiz;
 	
@@ -31,6 +33,10 @@ public class arvore {
 		y.direita = aux.esquerda;
 		aux.esquerda = y;
 		
+
+		//Altura
+		y.altura = maior(altura(y.esquerda),altura(y.direita))+1;
+		aux.altura = maior(altura(aux.esquerda),altura(aux.direita))+1;
 		return aux;
 	}
 	
@@ -40,6 +46,10 @@ public class arvore {
 		//Rotacionar
 		y.esquerda = aux.direita;
 		aux.direita = y;
+		
+		//Altura
+		y.altura = maior(altura(y.esquerda),altura(y.direita))+1;
+		aux.altura = maior(altura(aux.esquerda),altura(aux.direita))+1;
 		
 		return aux;
 	}
