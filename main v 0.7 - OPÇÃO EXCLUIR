@@ -1,0 +1,57 @@
+package arvoreAVL;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) throws FileNotFoundException {
+		arvore avl = new arvore(); //Crio novo elemento tipo arvore		
+		Scanner in = new Scanner(System.in);
+        Scanner in2 = new Scanner(System.in);
+        int escolha=1, numero;
+        
+		while(escolha != 0) {
+	        System.out.println("--------------ARVORE AVL--------------");
+	        System.out.println("1-Inserir\n2-Carregar arquivo INPUT.TXT\n3-Imprimir\n4-Localizar\n5-Excluir");
+        	System.out.println("\nEscolha: ");
+	        escolha = in.nextInt();
+	        switch(escolha) {
+	        	case 1:
+	                System.out.printf("Digite o numero para inserir: ");
+	                numero = in2.nextInt();
+	                avl.raiz = avl.inserir(numero, avl.raiz);
+	                System.out.println("Inserido: " + numero);
+	                break;
+	            case 2:
+	            	Scanner leitura = new Scanner(new FileReader("INPUT.TXT")).useDelimiter("\\;|\\.");
+	            	while (leitura.hasNext()) {
+	            		int entrada = leitura.nextInt();
+	            		avl.raiz = avl.inserir(entrada, avl.raiz);
+	            	}
+	            	break;
+	            case 3:
+	            	System.out.printf("\n");
+	            	avl.imprimir();
+	            	System.out.printf("\n");
+	            	break;
+	            case 4:
+	            	System.out.printf("No to FIND: ");
+	                numero = in2.nextInt();
+	                avl.localizaNo(numero, avl.raiz);
+	                break;
+	            case 5:
+	            	System.out.printf("No a EXCLUIR: ");
+	                numero = in2.nextInt();
+	                avl.excluiElemento(numero, avl.raiz);
+	            	break;
+	            default:
+	            	System.out.printf("Escolha: ");
+	            	escolha  =  in.nextInt();
+	            	break;   	
+             }
+	         System.out.printf("\n");
+		}
+	}
+
+}
