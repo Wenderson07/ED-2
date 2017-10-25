@@ -142,7 +142,6 @@ public class arvore {
     }
     
     public void localizaNo(int x, No y) {
-
     	No aux = y;
     	while(y != null){
     		if (x > y.valor)
@@ -153,8 +152,10 @@ public class arvore {
             	No pai = identificaPai(x,aux);
         		int fb = fatorDeBalanceamento(y);
         		System.out.println("No: " + y.valor + " (FB: " + fb + ")");
-        		fb = fatorDeBalanceamento(pai);
-        	    System.out.println("\tPai: " + pai.valor + " (FB: " + fb + ")");    
+        		if(pai != null) {
+        			fb = fatorDeBalanceamento(pai);
+            	    System.out.println("\tPai: " + pai.valor + " (FB: " + fb + ")");
+        		}
         	    if(y.direita != null) {
         	    	fb = fatorDeBalanceamento(y.direita); 
         	        System.out.println("\tFilho a Direita:  " + y.direita.valor + "   (FB: " + fb + ")");
@@ -205,7 +206,7 @@ public class arvore {
         if (y == null)
         	return y;
         	
-      	y.altura = maior(altura(y.esquerda),altura(y.direita)) + 1;
+      	y.altura = maior(altura(y.esquerda),altura(y.direita)) - 1;
         	
        	int	fb = fatorDeBalanceamento(y);
        	
