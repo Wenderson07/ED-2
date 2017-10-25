@@ -206,7 +206,7 @@ public class arvore {
         if (y == null)
         	return y;
         	
-      	y.altura = maior(altura(y.esquerda),altura(y.direita)) - 1;
+      	y.altura = maior(altura(y.esquerda),altura(y.direita)) + 1;
         	
        	int	fb = fatorDeBalanceamento(y);
        	
