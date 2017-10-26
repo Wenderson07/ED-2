@@ -115,11 +115,11 @@ public class arvore {
 	    else
 	    	encontraMenor(y.esquerda);
 	}
-	public void encontraMaior(No y){
+	public No encontraMaior(No y){
 	    if(y.direita == null)
-	    	System.out.println("Maior valor: " + y.valor);
+	    	return y;
 	    else
-	    	encontraMaior(y.direita);
+	    	return encontraMaior(y.direita);
 	}
 
     public void imprimir() {
