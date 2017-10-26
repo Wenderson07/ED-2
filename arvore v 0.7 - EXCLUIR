@@ -193,9 +193,7 @@ public class arvore {
     					aux = null;
     				}
     			} else { // No: COM 2 FILHOS
-    				No aux = y.esquerda;
-    				while(aux.direita != null)
-    					aux = aux.direita;
+    				No aux = encontraMaior(y.esquerda);
     				y.valor = aux.valor;
     				aux.valor = x;
     				y.esquerda = excluiElemento(x,y.esquerda);    	
