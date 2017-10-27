@@ -185,9 +185,7 @@ public class Arvore {
     		else{
     			if(y.esquerda == null && y.direita == null){ // NO: NAO TEM FILHOS
     				System.out.println("oi");
-    				limpar(y);
-    				limpar(y.esquerda);
-    				limpar(y.direita);
+    				return null;
     				
     			} else if (y.esquerda == null || y.direita == null){ // NO: COM 1 FILHO APENAS
     				
@@ -217,18 +215,17 @@ public class Arvore {
         	
        	int	fb = fatorDeBalanceamento(y);
        	
-       	if(fb > 1 && fatorDeBalanceamento(y.esquerda) >= 0) // ROT. ESQUERDA
-       		return rotacionarParaDireita(y);
-       	else if(fb > 1 && fatorDeBalanceamento(y.esquerda) < 0){ // DUPLA R.ESQUERDA
-       		y.esquerda = rotacionarParaEsquerda(y.esquerda);
-       		return rotacionarParaDireita(y);	
-   		}
-   		else if(fb < -1 && fatorDeBalanceamento(y.direita) <= 0) // ROT. DIREITA
-   			return rotacionarParaEsquerda(y);
-   		else if(fb < -1 && fatorDeBalanceamento(y.direita) > 0){ // DUPLA R. DIREITA
-   			y.direita = rotacionarParaDireita(y.direita);
-   			return rotacionarParaEsquerda(y);
-   		}
+   		if(fb < -1 && x < y.esquerda.valor) {
+			return rotacionarParaDireita(y);
+		} else if(fb > 1 && x > y.direita.valor){
+			return rotacionarParaEsquerda(y);
+		} else if(fb < -1 && x > y.esquerda.valor) {  //Dupla a Direita
+			y.esquerda = rotacionarParaEsquerda(y.esquerda);
+			return rotacionarParaDireita(y);
+		} else if(fb > 1 && x < y.direita.valor) {	//Dupla a Esquerda
+			y.direita = rotacionarParaDireita(y.direita);
+			return rotacionarParaEsquerda(y);
+		}
     			
    		return y;		
   	}
