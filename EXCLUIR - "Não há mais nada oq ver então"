@@ -1,0 +1,54 @@
+    public No excluiElemento(int x, No y){
+    	if(y == null)
+    		return y;
+    	else{
+    		if(x < y.valor)
+    			y.esquerda = excluiElemento(x,y.esquerda);
+    		else if(x > y.valor)
+    			y.direita = excluiElemento(x,y.direita);
+    		else{
+    			if(y.esquerda == null && y.direita == null){ // NO: NAO TEM FILHOS
+    				return null;
+    			} else if (y.esquerda == null || y.direita == null){ // NO: COM 1 FILHO APENAS
+    				No aux = null;
+    		    	if(y.esquerda == null){
+    					aux = y.direita;
+    					y.direita = aux.esquerda;
+    					y = aux;
+    				}
+    		    	else if(y.direita == null){
+    					aux = y.esquerda;
+    					y.esquerda = aux.direita;
+    					y = aux;
+    				}
+    			} else { // No: COM 2 FILHOS
+    				No aux = encontraMaior(y.esquerda);
+    				y.valor = aux.valor;
+    				aux.valor = x;
+    				y.esquerda = excluiElemento(x,y.esquerda);    	
+    			}
+    		}
+    	}
+    	// If the tree had only one node then return
+        if (y == null)
+        	return y;
+        	
+      	y.altura = maior(altura(y.esquerda),altura(y.direita)) + 1;
+        	
+       	int	fb = fatorDeBalanceamento(y);
+       	
+   		if(fb > 1 && fatorDeBalanceamento(y.direita) >= 0) // ROT. ESQUERDA
+   			return rotacionarParaEsquerda(y);
+   	   	else if(fb > 1 && fatorDeBalanceamento(y.direita) < 0){ // DUPLA R.ESQUERDA
+   	   		y.direita = rotacionarParaDireita(y.direita);	
+   	   		return rotacionarParaEsquerda(y);
+   		}
+   		else if(fb < -1 && fatorDeBalanceamento(y.esquerda) <= 0) // ROT. DIREITA
+   			return rotacionarParaDireita(y);
+   		else if(fb < -1 && fatorDeBalanceamento(y.esquerda) > 0){ // DUPLA R. DIREITA
+   			y.esquerda = rotacionarParaEsquerda(y.esquerda);
+   			return rotacionarParaDireita(y);
+   		}
+   		
+   		return y;		
+  	}
