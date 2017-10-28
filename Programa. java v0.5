@@ -9,6 +9,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.FileReader;
+import java.lang.reflect.Method;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.Window.Type;
@@ -75,6 +76,41 @@ public class Programa {
 		
 		//Arvore 
 		Arvore avl = new Arvore(); //Crio novo elemento tipo arvore
+		JButton btnImprimir = new JButton("Imprimir");
+		JTextArea textArvore = new JTextArea();
+		textArvore.setBounds(134, 41, 640, 310);
+		frmArvoreAvl.getContentPane().add(textArvore);
+		btnImprimir.addActionListener(new ActionListener() {
+			 public void imprimir() {
+			    	int fb = avl.fatorDeBalanceamento(avl.raiz);
+			        textArvore.setText(avl.raiz.valor + "(raiz FB: " + fb + ")");
+			        imprimeNos(avl.raiz, " ");
+			    }
+			    public void imprimeNos(No y,String espaçamento) {
+			    	int fb;
+			        if(y.direita != null) {
+			        	fb = avl.fatorDeBalanceamento(y.direita);
+			        	textArvore.append("\n   "+ espaçamento + y.direita.valor + "   (pai: " + y.valor + " - FB : " + fb + ")");
+			            imprimeNos(y.direita, espaçamento + "\t");
+			        }
+			        if(y.esquerda != null) {
+			        	fb = avl.fatorDeBalanceamento(y.esquerda);
+			        	textArvore.append("\n   " + espaçamento + y.esquerda.valor + "   (pai: " + y.valor + " - FB: " + fb + ")");
+			            imprimeNos(y.esquerda, espaçamento + "\t");
+			        }
+			    }
+			public void actionPerformed(ActionEvent e){
+				try {
+				    imprimir();
+				} catch (Exception e2) {
+					textArvore.setText("");
+				}
+
+			}
+		});
+		btnImprimir.setBounds(10, 110, 89, 23);
+		frmArvoreAvl.getContentPane().add(btnImprimir);
+		
 		JButton btnInserir = new JButton("Inserir");
 		btnInserir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -83,6 +119,7 @@ public class Programa {
 					numero = Integer.parseInt(NumeroTextField.getText());
 					avl.raiz =  avl.inserir(numero, avl.raiz);
 					impressao.setText("O numero: " + numero + " foi inserido");
+					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null,"Por favor entre com um numero valido");
 				}
@@ -99,6 +136,7 @@ public class Programa {
 					numero = Integer.parseInt(NumeroTextField.getText());
 					avl.raiz = avl.excluiElemento(numero,avl.raiz);
 					impressao.setText("O numero: " + numero + " foi removido");
+					
 				} catch (Exception e2) {
 					impressao.setText("Erro ao remover");
 				}
@@ -108,37 +146,7 @@ public class Programa {
 		});
 		btnRemover.setBounds(10, 76, 89, 23);
 		frmArvoreAvl.getContentPane().add(btnRemover);
-		
-		JTextArea textArvore = new JTextArea();
-		textArvore.setBounds(134, 41, 640, 310);
-		frmArvoreAvl.getContentPane().add(textArvore);
-		JButton btnImprimir = new JButton("Imprimir");
-		btnImprimir.addActionListener(new ActionListener() {
-			 void imprimir() {
-			    	int fb = avl.fatorDeBalanceamento(avl.raiz);
-			        textArvore.setText(avl.raiz.valor + "(raiz FB: " + fb + ")");
-			        imprimeNos(avl.raiz, " ");
-			    }
-			    public void imprimeNos(No y,String espaçamento) {
-			    	int fb;
-			        if(y.direita != null) {
-			        	fb = avl.fatorDeBalanceamento(y.direita); 
-			      
-			        	textArvore.append("\n   "+ espaçamento + y.direita.valor + "   (pai: " + y.valor + " - FB : " + fb + ")");
-			            imprimeNos(y.direita, espaçamento + "\t");
-			        }
-			        if(y.esquerda != null) {
-			        	fb = avl.fatorDeBalanceamento(y.esquerda);
-			        	textArvore.append("\n   " + espaçamento + y.esquerda.valor + "   (pai: " + y.valor + " - FB: " + fb + ")");
-			            imprimeNos(y.esquerda, espaçamento + "\t");
-			        }
-			    }
-			public void actionPerformed(ActionEvent e){
-			    imprimir();
-			}
-		});
-		btnImprimir.setBounds(10, 110, 89, 23);
-		frmArvoreAvl.getContentPane().add(btnImprimir);
+
 		
 		JButton btnArquivo = new JButton("Arquivo");
 		btnArquivo.addActionListener(new ActionListener() {
