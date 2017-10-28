@@ -1,0 +1,236 @@
+package arvoreAVL;
+
+public class Arvore {
+	public No raiz;
+	
+	public Arvore() { 
+		//Iniciar
+		raiz = null;
+	}
+	
+	public void limpar(No y) {
+		//Limpa ou cria a arvore
+		raiz =null;
+	}
+	private int altura(No y){
+		if(y == null) {
+			return 0;
+		} else {
+			return y.altura;
+		}
+	}
+	
+	int maior(int a, int b){
+		if(a > b) {
+			return a;
+		} else {
+			return b;
+		}
+	}
+
+	public No rotacionarParaEsquerda(No y) {
+		No aux = y.direita;  //Filho da direita
+		
+		//Rotacionar
+		y.direita = aux.esquerda;
+		aux.esquerda = y;
+		
+
+		//Altura
+		y.altura = maior(altura(y.esquerda),altura(y.direita))+1;
+		aux.altura = maior(altura(aux.esquerda),altura(aux.direita))+1;
+		return aux;
+	}
+	public No rotacionarParaDireita(No y) {
+		No aux = y.esquerda;  //Filho da esquerda
+		
+		//Rotacionar
+		y.esquerda = aux.direita;
+		aux.direita = y;
+		
+		//Altura
+		y.altura = maior(altura(y.esquerda),altura(y.direita))+1;
+		aux.altura = maior(altura(aux.esquerda),altura(aux.direita))+1;
+		
+		return aux;
+	}
+	
+	int fatorDeBalanceamento(No y){
+		if(y == null) {
+			return 0;
+		}
+		return altura(y.direita) - altura(y.esquerda); 
+	}
+	
+	public No identificaPai(int x, No y){
+		No pai = null;
+		
+		if(y != null) {
+			while(y.valor != x){ 
+				pai = y;
+				if(y.valor > x)
+					y = y.esquerda;
+	    		else
+	    			y = y.direita;
+			}	
+	    	return pai;
+		}
+		return null;
+	}
+	
+	public No inserir(int x, No y) {
+
+		if(y == null) {
+			return (new No(x));
+		}
+		if(x < y.valor) {		
+			y.esquerda = inserir(x,y.esquerda);
+		} else if(x > y.valor){
+			y.direita = inserir(x,y.direita);
+		} else { //Caso seja igual , nada acontece
+			
+		}
+
+		int fb = fatorDeBalanceamento(y);
+				
+		if(fb < -1 && x < y.esquerda.valor) {
+			return rotacionarParaDireita(y);
+		} else if(fb > 1 && x > y.direita.valor){
+			return rotacionarParaEsquerda(y);
+		} else if(fb < -1 && x > y.esquerda.valor) {  //Dupla a Direita
+			y.esquerda = rotacionarParaEsquerda(y.esquerda);
+			return rotacionarParaDireita(y);
+		} else if(fb > 1 && x < y.direita.valor) {	//Dupla a Esquerda
+			y.direita = rotacionarParaDireita(y.direita);
+			return rotacionarParaEsquerda(y);
+		}
+		
+		y.altura = maior(altura(y.esquerda),altura(y.direita)) + 1;
+		
+		return y;
+	}
+
+	
+	public void encontraMenor(No y){
+	    if(y.esquerda == null)
+	    	System.out.println("Menor valor: " + y.valor);
+	    else
+	    	encontraMenor(y.esquerda);
+	}
+	public void encontraMaior(No y){
+	    if(y.direita == null)
+	    	System.out.println("Maior valor: " + y.valor);
+	    else
+	    	encontraMaior(y.direita);
+	}
+	
+    
+    public void localizaNo(int x, No y) {
+    	No aux = y;
+    	while(y != null){
+    		if (x > y.valor)
+    			y = y.direita;
+    		else if (x < y.valor)
+    			y = y.esquerda;
+            else {
+            	No pai = identificaPai(x,aux);
+        		int fb = fatorDeBalanceamento(y);
+        		System.out.println("No: " + y.valor + " (FB: " + fb + ")");
+        		if(pai != null) {
+        			fb = fatorDeBalanceamento(pai);
+            	    System.out.println("\tPai: " + pai.valor + " (FB: " + fb + ")");
+        		}
+        	    if(y.direita != null) {
+        	    	fb = fatorDeBalanceamento(y.direita); 
+        	        System.out.println("\tFilho a Direita:  " + y.direita.valor + "   (FB: " + fb + ")");
+        	    }
+                if(y.esquerda != null) {
+                	fb = fatorDeBalanceamento(y.esquerda);
+                	System.out.println("\tFilho a Esquerda: " + y.esquerda.valor + "   (FB: " + fb + ")");
+                }
+                return;
+            }     
+        }
+    	System.out.println("Elemento não presente na AVL.");
+    }
+    
+    public No excluiElemento(int x, No y){
+    	if(y == null)
+    		return y;
+    	else{
+    		if(x < y.valor)
+    			y.esquerda = excluiElemento(x,y.esquerda);
+    		else if(x > y.valor)
+    			y.direita = excluiElemento(x,y.direita);
+    		else{
+    			if(y.esquerda == null && y.direita == null){ // NO: NAO TEM FILHOS
+    				return null;
+    				
+    			} else if (y.esquerda == null || y.direita == null){ // NO: COM 1 FILHO APENAS
+    				
+    				if(y.esquerda == null){
+    					y = y.direita;
+    					y.direita = null;
+    				}
+    				
+    				if(y.direita == null){
+    					y = y.esquerda;
+    					y.esquerda = null;
+    				}
+    			} else { // No: COM 2 FILHOS
+    				No aux = y.esquerda;
+    				while(aux.direita != null)
+    					aux = aux.direita;
+    				y.valor = aux.valor;
+    				aux.valor = x;
+    				y.esquerda = excluiElemento(x,y.esquerda);    	
+    			}
+    		}
+    	}
+    	// If the tree had only one node then return
+        if (y == null)
+        	return y;
+        	
+      	y.altura = maior(altura(y.esquerda),altura(y.direita)) + 1;
+        	
+       	int	fb = fatorDeBalanceamento(y);
+       	
+   		if(fb < -1 && x < y.esquerda.valor) {
+			return rotacionarParaDireita(y);
+		} else if(fb > 1 && x > y.direita.valor){
+			return rotacionarParaEsquerda(y);
+		} else if(fb < -1 && x > y.esquerda.valor) {  //Dupla a Direita
+			y.esquerda = rotacionarParaEsquerda(y.esquerda);
+			return rotacionarParaDireita(y);
+		} else if(fb > 1 && x < y.direita.valor) {	//Dupla a Esquerda
+			y.direita = rotacionarParaDireita(y.direita);
+			return rotacionarParaEsquerda(y);
+		}
+    			
+   		return y;		
+  	}
+    
+    
+    void inOrdem(No y){
+    	if(y != null) {
+    		inOrdem(y.esquerda);
+    		System.out.print(y.valor + "(" + fatorDeBalanceamento(y) + ") ");
+    		inOrdem(y.direita);
+    	}
+    }
+    void preOrdem(No y){
+    	if(y != null) {
+    		System.out.println(y.valor+"(" + fatorDeBalanceamento(y)+ ")");
+    		preOrdem(y.esquerda);
+    		preOrdem(y.direita);
+    	}
+    }
+    void posOrdem(No y){
+    	if(y != null) {
+    		posOrdem(y.esquerda);
+    		posOrdem(y.direita);
+    		System.out.println(y.valor+"(" + fatorDeBalanceamento(y)+ ")");
+    	}
+    }
+    		
+}
