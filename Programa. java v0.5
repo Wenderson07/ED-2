@@ -1,0 +1,173 @@
+package arvoreAVL;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import java.awt.SystemColor;
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.io.FileReader;
+import java.util.Scanner;
+import java.awt.event.ActionEvent;
+import java.awt.Window.Type;
+import javax.swing.UIManager;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
+
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
+
+public class Programa {
+
+	private JFrame frmArvoreAvl;
+	private JTextField NumeroTextField;
+	private JTextField impressao;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Programa window = new Programa();
+					window.frmArvoreAvl.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Programa() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmArvoreAvl = new JFrame();
+		frmArvoreAvl.getContentPane().setBackground(UIManager.getColor("InternalFrame.activeTitleGradient"));
+		frmArvoreAvl.setTitle("Arvore Avl");
+		frmArvoreAvl.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		frmArvoreAvl.setBackground(SystemColor.inactiveCaptionText);
+		frmArvoreAvl.setBounds(100, 100, 800, 400);
+		frmArvoreAvl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmArvoreAvl.getContentPane().setLayout(null);
+		
+		NumeroTextField = new JTextField();
+		NumeroTextField.setBounds(10, 11, 86, 20);
+		frmArvoreAvl.getContentPane().add(NumeroTextField);
+		NumeroTextField.setColumns(10);
+		
+		//Arvore 
+		Arvore avl = new Arvore(); //Crio novo elemento tipo arvore
+		JButton btnInserir = new JButton("Inserir");
+		btnInserir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int numero;
+				try {
+					numero = Integer.parseInt(NumeroTextField.getText());
+					avl.raiz =  avl.inserir(numero, avl.raiz);
+					impressao.setText("O numero: " + numero + " foi inserido");
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null,"Por favor entre com um numero valido");
+				}
+			}
+		});
+		btnInserir.setBounds(10, 42, 89, 23);
+		frmArvoreAvl.getContentPane().add(btnInserir);
+		
+		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int numero;
+				try {
+					numero = Integer.parseInt(NumeroTextField.getText());
+					avl.raiz = avl.excluiElemento(numero,avl.raiz);
+					impressao.setText("O numero: " + numero + " foi removido");
+				} catch (Exception e2) {
+					impressao.setText("Erro ao remover");
+				}
+				
+				
+			}
+		});
+		btnRemover.setBounds(10, 76, 89, 23);
+		frmArvoreAvl.getContentPane().add(btnRemover);
+		
+		JTextArea textArvore = new JTextArea();
+		textArvore.setBounds(134, 41, 640, 310);
+		frmArvoreAvl.getContentPane().add(textArvore);
+		JButton btnImprimir = new JButton("Imprimir");
+		btnImprimir.addActionListener(new ActionListener() {
+			 void imprimir() {
+			    	int fb = avl.fatorDeBalanceamento(avl.raiz);
+			        textArvore.setText(avl.raiz.valor + "(raiz FB: " + fb + ")");
+			        imprimeNos(avl.raiz, " ");
+			    }
+			    public void imprimeNos(No y,String espaçamento) {
+			    	int fb;
+			        if(y.direita != null) {
+			        	fb = avl.fatorDeBalanceamento(y.direita); 
+			      
+			        	textArvore.append("\n   "+ espaçamento + y.direita.valor + "   (pai: " + y.valor + " - FB : " + fb + ")");
+			            imprimeNos(y.direita, espaçamento + "\t");
+			        }
+			        if(y.esquerda != null) {
+			        	fb = avl.fatorDeBalanceamento(y.esquerda);
+			        	textArvore.append("\n   " + espaçamento + y.esquerda.valor + "   (pai: " + y.valor + " - FB: " + fb + ")");
+			            imprimeNos(y.esquerda, espaçamento + "\t");
+			        }
+			    }
+			public void actionPerformed(ActionEvent e){
+			    imprimir();
+			}
+		});
+		btnImprimir.setBounds(10, 110, 89, 23);
+		frmArvoreAvl.getContentPane().add(btnImprimir);
+		
+		JButton btnArquivo = new JButton("Arquivo");
+		btnArquivo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Scanner leitura;
+				try {
+					leitura = new Scanner(new FileReader("INPUT.TXT")).useDelimiter("\\;|\\.");
+	            	while (leitura.hasNext()) {
+	            		int entrada = leitura.nextInt();
+	            		avl.raiz = avl.inserir(entrada, avl.raiz);
+	            	}
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnArquivo.setBounds(10, 144, 89, 23);
+		frmArvoreAvl.getContentPane().add(btnArquivo);
+		
+		impressao = new JTextField();
+		impressao.setForeground(Color.BLACK);
+		impressao.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		impressao.setHorizontalAlignment(SwingConstants.CENTER);
+		impressao.setBackground(Color.WHITE);
+		impressao.setBounds(124, 11, 167, 20);
+		frmArvoreAvl.getContentPane().add(impressao);
+		impressao.setColumns(10);
+
+		
+		
+	}
+}
